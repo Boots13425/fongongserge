@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FETNET</title>
+  <style>
+    body{
+      background-color: #d4d0d0;
+    }
+    .post{
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .post img{
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 10px;
+    }
+
+    #preview{
+       max-width: 200px;
+       max-height: 200px;
+       margin-top: 10px;
+    }
+    .footer{
+      background-color: #f0f0f0;
+      padding: 10px;
+      position: fixed;
+      bottom: 0; 
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #ccc;
+    }
+   .footer a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;        
+    }
+
+    @media (max-width: 768px) {
+      div {
+          flex-direction: row; 
+           
+      }
+      div a {
+          margin: 30px 30px; /* Adjust horizontal spacing for stacked navigation */
+      }
+  }
+  </style>
+</head>
+<body>
+  <main>
+
+    <div class="post">
+      <img src="test.jpg" width="400px" height="300px" alt="Post image">
+      <h3>school event</h3>
+      <p>Join us for the preserntation this saturday</p>
+    </div>
+
+    <div class="post">
+      <h3>Club announcement</h3>
+      <p>introducing the robotics club!! sign up now</p>
+    </div>
+
+  </main>
+    <nav class="footer">
+              <a href="#home">home</a>
+              <a href="#post">post</a>
+              <a href="#clubs">club</a>
+              <a href="#groups">group</a>
+              <a href="#alumni">alumni</a>
+              <a href="#profile">profile</a>
+    </nav>
+
+    this is the club section for Fah-one Academy.... here, you will be able to 
+    join club activities and keep in touch with the relevant news of the school and 
+    its environment
+</body>
+</html>

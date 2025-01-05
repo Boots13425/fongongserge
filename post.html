@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #upload-form{
+            margin-bottom: 20px;
+        }
+        #preview{
+            max-width: 200px;
+            max-height: 200px;
+            display: none;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+
+        <div id="posts-container"></div>
+
+        <form id="upload-form">
+           <label for="image-upload">Upload image</label>
+           <input type="file" id="image-upload" name="image-upload" placeholder="upload an image" accept="image/*">
+
+           <img id="preview" src="#" alt="Image Preview">
+
+           <label for="post-content">Post Content</label>
+           <textarea id="post-content" rows="4" cols="50"></textarea><br>
+
+           <button type="button" onclick="addPost()">Add Post</button>
+        </form>
+    </main>
+
+    <script>
+        const imageUpload = document.getElementById('image-upload');
+        const preview = document.getElementById('preview');
+
+        imageUpload.addEventListener('change', function(event){
+            const file = event.target.files[0];
+            if (file){
+                const reader = new FileReader();
+                reader.onload = function(e){
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }else{
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        });
+
+        function addPost() {
+            const file = imageUpload.files[0];
+            const postContent = document.getElementById('post-content').value;
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    const base64String = reader.result;
+                    const postsContainer = document.getElementById('posts-container');
+                    const newPost = document.createElement('div');
+                    newPost.className = 'post';
+                    newPost.innerHTML = `
+                    <img src="${base64String}" alt="uploaded image">
+                    <p>${postContent}</p>
+                    `;
+                    postsContainer.insertBefore(newPost, postsContainer.firstChild);
+
+                    imageUpload.value = '';
+                    preview.src = '#';
+                    preview.style.display = 'none';
+                    document.getElementById('post-content').value = '';
+                }
+                reader.readAsDataURL(file);
+            }else {
+                alert("please select an image to upload.");
+            }
+        }
+
+        const initialPosts = [
+        {imageUrl: "paper2.jpg", title: "school event", content:"join us for the annual..."},
+        {imageUrl: "test.jpg", title: "club stuff", content: "introducing clubs to fet"},
+        ];
+
+        const postsContainer = document.getElementById('posts-container');
+        initial.Posts.forEach(post => {
+            const newPost = document.createElement('div');
+            newPost.className = 'post';
+            newPost.innerHTML = `
+              <img src="${post.imageUrl}" alt="uploaded image">
+              <h3>${post.title}</h3>
+              <p>${post.content}</p>
+            `;
+            postsContainer.appendChild(newPost);
+        });
+    </script>
+</body>
+</html>

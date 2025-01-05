@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>signup form</title>
+<style>
+body {
+  font-family: sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  width: 350px;
+  max-width: 90%;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rebeccapurple;
+}
+
+button[type="submit"] {
+  background-color: #673ac7;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #512da8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+  color: red;
+  margin-top: 5px;
+  font-size: 0.9em;
+}
+.has_account {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.has_account a {
+  color: #663399;
+  text-decoration: none;
+}
+
+.has_account a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Sign Up to FETNET</h1>
+  <form id ="signupForm"  method="POST" action="/signup">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" >
+    <div id="nameError" class="error"></div><br>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" >
+    <div id="emailError" class="error"></div><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" >
+    <div id="passwordError" class="error"></div><br>
+
+    <label for="confirmPassword">confrim Passwerd:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" >
+    <div id="confirmPasswordError" class="error"></div><br>
+
+    <button type="submit" name="submit" value="submit">Sign Up</button>
+    <div id="generalError" class="error"></div>
+    <div id="successMessage" style="color: rebeccapurple"></div>
+    <p class="has_account">
+      Already have an account? <a href="login.html">Login</a>
+    </p>
+  </form>
+</div>
+<script>
+    const form = document.getElementById('signupForm');
+   
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault(); 
+
+      document.getElementById('nameError').textContent = "";
+      document.getElementById('emailError').textContent = "";
+      document.getElementById('passwordError').textContent = "";
+      document.getElementById('confirmPasswordError').textContent = "";
+      document.getElementById('generalError').textContent = "";
+      document.getElementById('successMessage').textContent = "";
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      try{
+        const response = await fetch('/signup',{
+          method: 'POST',
+          headers:  { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+          
+        if(!response.ok){
+          const errorText = await response.text();
+          throw new Error(`HTTP error ${response.status}: ${errorText}`);
+        }
+        const result = await response.json();
+
+        if (result.success){
+          window.location.href = result.redirectUrl;
+        } else if (result.errors) {
+            for (const key in result.errors){
+                 document.getElementById(key + 'error').textContent = result.error[key];
+                }
+              }else if (result.message){
+                document.getElementById('generalError').textContent = result.message;
+              }  
+            } catch (error) {
+        document.getElementById('generalError').textContent = "an error occured. Please try again later";
+        console.error("fetch error", error);
+      }
+
+    });  
+
+ </script>
+</body>
+</html>
