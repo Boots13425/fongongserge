@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FET Alumni</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        .alumni-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rebeccapurple; 
+        }
+        .alumni-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover; 
+            float: left;
+            margin-right: 10px;
+        }
+        .alumni-info {
+            overflow: hidden; 
+        }
+        #alumni-list{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            grid-gap: 20px;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to FET's Alumni</h1>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search by name or graduation year">
+    </div>
+
+    <div id="alumni-list">
+        </div>
+
+    <script>
+        const alumniData = [
+            { name: "Dr Sop Lionel", graduationYear: 2000, major: "Artificial Interligence", photo: "profileLogpng.png", bio: "HOD, Computer Engineering." },
+            { name: "Dr Valerie Nkameni", graduationYear: 2000, major: "Electrical machined", photo: "profileLogpng.png", bio: "hod, electrical and Electronics Engineering." },
+            { name: "Dr Winkar Basil", graduationYear: 2000, major: "Digital Laboratory", photo: "profileLogpng.png", bio: "No bio yet." },
+            { name: "Dr Tsague", graduationYear: 2000, major: "Data structure", photo: "profileLogpng.png", bio: "No boi yet." },
+  
+        ];
+
+        function displayAlumni(alumni) {
+            const alumniList = document.getElementById('alumni-list');
+            alumniList.innerHTML = ''; 
+
+            alumni.forEach(person => {
+                const card = document.createElement('div');
+                card.className = 'alumni-card';
+
+                card.innerHTML = `
+                    <img class="alumni-photo" src="${person.photo}" alt="${person.name}'s photo">
+                    <div class="alumni-info">
+                        <h3>${person.name} (${person.graduationYear})</h3>
+                        <p>Major: ${person.major}</p>
+                        <p>${person.bio}</p>
+                    </div>
+                `;
+                alumniList.appendChild(card);
+            });
+        }
+
+        function searchAlumni() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filteredAlumni = alumniData.filter(person => {
+                return person.name.toLowerCase().includes(searchTerm) ||
+                       person.graduationYear.toString().includes(searchTerm);
+            });
+            displayAlumni(filteredAlumni);
+        }
+
+        
+        displayAlumni(alumniData);
+
+        
+        document.getElementById('search-input').addEventListener('input', searchAlumni);
+    </script>
+
+</body>
+</html>
